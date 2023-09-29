@@ -7,7 +7,7 @@ import { VerPersonajes } from "./components/VerPersonajes";
 function App() {
   const [personaje, setPersonajes] = useState();
   const [filterSpecies, setfilterSpecies] = useState("");
-  const [modal, setModal] = useState({});
+  const [modal, setModal] = useState(false);
   useEffect(() => {
     getPersonajes().then((res) => setPersonajes(res.results));
   }, []);
@@ -22,15 +22,10 @@ function App() {
     }
   };
 
-  const eliminarPersonaje = () => {
-    const personajeEliminado = personaje.filter((per) => per.name !== name);
-    setPersonajes(personajeEliminado);
-  };
-
   const abrirModal = () => {
     setModal(true);
   };
-  console.log(personajeFilter());
+
   return (
     <section>
       <Navbar />
@@ -43,17 +38,23 @@ function App() {
         </h2>
         <div>
           <input
+            type="text" className="redondeado"
+            placeholder="Busqueda por Species"
+            onChange={(e) => setfilterSpecies(e.target.value)}
+          />
+        </div>
+        <VerPersonajes
+          personaje={personajeFilter()}
+          abrirModal={abrirModal}
+          modal={modal}
+        />
+        <div>
+          <input
             type="text"
             placeholder="Busqueda por Species"
             onChange={(e) => setfilterSpecies(e.target.value)}
           />
         </div>
-
-        <VerPersonajes
-          personaje={personajeFilter()}
-          eliminarPersonaje={eliminarPersonaje}
-          abrirModal={abrirModal}
-        />
       </div>
     </section>
   );

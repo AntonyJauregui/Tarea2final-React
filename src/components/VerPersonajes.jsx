@@ -1,7 +1,20 @@
+import { useState } from "react";
+import { Moda } from "./moda";
+
 export const VerPersonajes = ({ personaje }) => {
+  const [modal, setModal] = useState({});
+
+  const abrirModal = (id) => {
+    console.log(id);
+    setModal((prevent) => ({
+      ...prevent,
+      [id]: true,
+    }));
+  };
+
   return (
     <table width="100%">
-      <thead>
+      <thead className="Tablas">
         <th>
           <b>Image</b>
         </th>
@@ -33,9 +46,12 @@ export const VerPersonajes = ({ personaje }) => {
                 </p>
               </td>
               <td>
-                <button>
+                <button className="button" onClick={() => abrirModal(per.id)}>
                   <b>Saber Mas</b>
                 </button>
+                {modal[per.id] && (
+                  <Moda modal={modal[per.id]} setModal={setModal} per={per} />
+                )}
               </td>
             </tr>
           ))}
